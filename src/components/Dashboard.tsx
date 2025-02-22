@@ -16,13 +16,24 @@ import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
   const { toast } = useToast();
-  const [healthMetrics] = useState({
+  
+  // Automatically collected metrics
+  const [autoMetrics] = useState({
     heartRate: "72 bpm",
+    spo2: "98%",
     bloodPressure: "120/80",
-    weight: "70 kg",
-    sleep: "7.5 hrs",
-    oxygenLevel: "98%",
+    sleepScore: "85/100",
+    sleepDuration: "7.5 hrs",
+    snoreCount: "12 events",
+    heartRateVariability: "45 ms",
     glucose: "95 mg/dL"
+  });
+
+  // Self-reported metrics
+  const [selfReportedMetrics] = useState({
+    bodyTemperature: "98.6°F",
+    painLevel: "2/10",
+    weight: "70 kg"
   });
 
   const [medications] = useState([
@@ -123,14 +134,32 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Health Metrics */}
+          {/* Automatic Metrics */}
           <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
             <div className="flex items-center space-x-3 mb-4">
               <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">Health Metrics</h2>
+              <h2 className="text-lg font-semibold">Device Metrics</h2>
             </div>
             <div className="space-y-3">
-              {Object.entries(healthMetrics).map(([metric, value]) => (
+              {Object.entries(autoMetrics).map(([metric, value]) => (
+                <div key={metric} className="flex justify-between items-center">
+                  <span className="text-gray-600 capitalize">
+                    {metric.replace(/([A-Z])/g, ' $1').trim()}
+                  </span>
+                  <span className="font-medium">{value}</span>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          {/* Self-Reported Metrics */}
+          <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
+            <div className="flex items-center space-x-3 mb-4">
+              <Heart className="w-5 h-5 text-primary" />
+              <h2 className="text-lg font-semibold">Self-Reported</h2>
+            </div>
+            <div className="space-y-3">
+              {Object.entries(selfReportedMetrics).map(([metric, value]) => (
                 <div key={metric} className="flex justify-between items-center">
                   <span className="text-gray-600 capitalize">
                     {metric.replace(/([A-Z])/g, ' $1').trim()}
