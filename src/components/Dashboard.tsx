@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Activity, Heart, User } from "lucide-react";
+import { Activity, Bell, Heart, Plus, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { InsightCard } from "./dashboard/InsightCard";
@@ -9,6 +9,8 @@ import { MedicationCard } from "./dashboard/MedicationCard";
 import { AppointmentCard } from "./dashboard/AppointmentCard";
 import { MetricsChart } from "./dashboard/MetricsChart";
 import { fetchHealthMetrics } from "@/services/mockHealthData";
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -96,31 +98,69 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header Section */}
         <header className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-primary rounded-full">
-              <User className="w-6 h-6 text-white" />
-            </div>
+          <div className="flex items-center gap-4">
             <div>
-              <h1 className="text-2xl font-semibold text-gray-900">Welcome Back</h1>
-              <p className="text-gray-600">Your Health Dashboard</p>
+              <p className="text-gray-500 mb-1">Good Morning</p>
+              <h1 className="text-2xl font-bold flex items-center gap-2">
+                Welcome Back
+                <span role="img" aria-label="wave">👋</span>
+              </h1>
             </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="icon">
+              <Plus className="h-5 w-5" />
+            </Button>
+            <Avatar className="h-10 w-10">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
           </div>
         </header>
 
-        {/* AI Insights Section */}
-        <div className="mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {insights.map((insight, index) => (
-              <InsightCard 
-                key={index}
-                insight={insight}
-                onClick={handleInsightAction}
-              />
-            ))}
-          </div>
+        {/* Quick Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricsCard
+            title="Heart Rate"
+            value="72"
+            unit="bpm"
+            icon={Heart}
+            trend="up"
+            trendValue="2.5%"
+            className="bg-gradient-to-br from-violet-500/90 to-violet-600/90"
+          />
+          <MetricsCard
+            title="Blood Pressure"
+            value="120/80"
+            unit="mmHg"
+            icon={Activity}
+            trend="stable"
+            className="bg-gradient-to-br from-emerald-500/90 to-emerald-600/90"
+          />
+          <MetricsCard
+            title="Glucose"
+            value="95"
+            unit="mg/dL"
+            icon={Activity}
+            trend="down"
+            trendValue="1.2%"
+            className="bg-gradient-to-br from-rose-500/90 to-rose-600/90"
+          />
+          <MetricsCard
+            title="SPO2"
+            value="98"
+            unit="%"
+            icon={Activity}
+            trend="stable"
+            className="bg-gradient-to-br from-blue-500/90 to-blue-600/90"
+          />
         </div>
 
         {/* Charts Section */}
@@ -147,18 +187,8 @@ const Dashboard = () => {
           />
         </div>
 
-        {/* Summary Cards Section */}
+        {/* Bottom Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MetricsCard
-            title="Device Metrics"
-            icon={Activity}
-            metrics={autoMetrics}
-          />
-          <MetricsCard
-            title="Self-Reported"
-            icon={Heart}
-            metrics={selfReportedMetrics}
-          />
           <MedicationCard medications={medications} />
           <AppointmentCard appointments={appointments} />
         </div>

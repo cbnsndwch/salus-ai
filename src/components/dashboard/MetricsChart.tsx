@@ -26,7 +26,7 @@ interface MetricsChartProps {
 
 export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartProps) => {
   return (
-    <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
+    <Card className="p-6 backdrop-blur-sm bg-card/50 animate-fadeIn">
       <div className="flex items-center space-x-3 mb-4">
         <Icon className="w-5 h-5 text-primary" />
         <h2 className="text-lg font-semibold">{title}</h2>
