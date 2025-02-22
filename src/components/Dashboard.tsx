@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Activity, Bell, Heart, Plus, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -97,6 +96,14 @@ const Dashboard = () => {
     });
   };
 
+  // Format data for metric cards
+  const formatMetricData = (key: string) => {
+    return timeSeriesData.map((item: any) => ({
+      date: item.date,
+      value: item[key]
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -135,6 +142,7 @@ const Dashboard = () => {
             trend="up"
             trendValue="2.5%"
             className="bg-gradient-to-br from-violet-500/90 to-violet-600/90"
+            data={formatMetricData('heartRate')}
           />
           <MetricsCard
             title="Blood Pressure"
@@ -143,6 +151,7 @@ const Dashboard = () => {
             icon={Activity}
             trend="stable"
             className="bg-gradient-to-br from-emerald-500/90 to-emerald-600/90"
+            data={formatMetricData('bloodPressureSystolic')}
           />
           <MetricsCard
             title="Glucose"
@@ -152,6 +161,7 @@ const Dashboard = () => {
             trend="down"
             trendValue="1.2%"
             className="bg-gradient-to-br from-rose-500/90 to-rose-600/90"
+            data={formatMetricData('glucose')}
           />
           <MetricsCard
             title="SPO2"
@@ -160,6 +170,7 @@ const Dashboard = () => {
             icon={Activity}
             trend="stable"
             className="bg-gradient-to-br from-blue-500/90 to-blue-600/90"
+            data={formatMetricData('spo2')}
           />
         </div>
 
