@@ -31,7 +31,7 @@ export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartP
         <Icon className="w-5 h-5 text-primary" />
         <h2 className="text-lg font-semibold">{title}</h2>
       </div>
-      <div className="h-[300px] mt-4">
+      <div className="h-[300px] mt-4 -ml-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
             <defs>
