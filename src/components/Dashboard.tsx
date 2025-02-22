@@ -1,18 +1,11 @@
 
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { 
-  Activity, 
-  Calendar, 
-  Clock, 
-  Heart, 
-  Pill, 
-  User, 
-  Info,
-  AlertTriangle,
-  Brain
-} from "lucide-react";
+import { Activity, Heart, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { InsightCard } from "./dashboard/InsightCard";
+import { MetricsCard } from "./dashboard/MetricsCard";
+import { MedicationCard } from "./dashboard/MedicationCard";
+import { AppointmentCard } from "./dashboard/AppointmentCard";
 
 const Dashboard = () => {
   const { toast } = useToast();
@@ -112,119 +105,28 @@ const Dashboard = () => {
         <div className="mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {insights.map((insight, index) => (
-              <Card 
+              <InsightCard 
                 key={index}
-                className="p-4 backdrop-blur-sm bg-card animate-fadeIn cursor-pointer hover:shadow-md transition-shadow"
-                onClick={() => handleInsightAction(insight)}
-              >
-                <div className="flex items-center space-x-3">
-                  {insight.severity === "warning" ? (
-                    <AlertTriangle className="w-5 h-5 text-amber-500" />
-                  ) : (
-                    <Brain className="w-5 h-5 text-primary" />
-                  )}
-                  <div>
-                    <p className="font-medium">{insight.message}</p>
-                    <p className="text-sm text-primary">{insight.action}</p>
-                  </div>
-                </div>
-              </Card>
+                insight={insight}
+                onClick={handleInsightAction}
+              />
             ))}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Automatic Metrics */}
-          <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
-            <div className="flex items-center space-x-3 mb-4">
-              <Activity className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">Device Metrics</h2>
-            </div>
-            <div className="space-y-3">
-              {Object.entries(autoMetrics).map(([metric, value]) => (
-                <div key={metric} className="flex justify-between items-center">
-                  <span className="text-gray-600 capitalize">
-                    {metric.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <span className="font-medium">{value}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* Self-Reported Metrics */}
-          <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
-            <div className="flex items-center space-x-3 mb-4">
-              <Heart className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">Self-Reported</h2>
-            </div>
-            <div className="space-y-3">
-              {Object.entries(selfReportedMetrics).map(([metric, value]) => (
-                <div key={metric} className="flex justify-between items-center">
-                  <span className="text-gray-600 capitalize">
-                    {metric.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <span className="font-medium">{value}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* Medications */}
-          <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
-            <div className="flex items-center space-x-3 mb-4">
-              <Pill className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">Medications</h2>
-            </div>
-            <div className="space-y-3">
-              {medications.map((med, index) => (
-                <div key={index} className="p-3 bg-white rounded-lg shadow-sm">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="font-medium">{med.name}</p>
-                      <p className="text-sm text-gray-500">{med.time}</p>
-                      <p className="text-xs text-gray-400 mt-1">{med.instructions}</p>
-                    </div>
-                    <Info 
-                      className="w-5 h-5 text-gray-400 cursor-pointer hover:text-primary transition-colors"
-                      onClick={() => toast({
-                        title: med.name,
-                        description: `Next refill: ${med.nextRefill}`,
-                      })}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* Appointments */}
-          <Card className="p-6 backdrop-blur-sm bg-card animate-fadeIn">
-            <div className="flex items-center space-x-3 mb-4">
-              <Calendar className="w-5 h-5 text-primary" />
-              <h2 className="text-lg font-semibold">Appointments</h2>
-            </div>
-            <div className="space-y-3">
-              {appointments.map((apt, index) => (
-                <div 
-                  key={index} 
-                  className={`p-3 bg-white rounded-lg shadow-sm border-l-4 ${
-                    apt.priority === "high" ? "border-red-500" : 
-                    apt.priority === "medium" ? "border-yellow-500" : 
-                    "border-green-500"
-                  }`}
-                >
-                  <p className="font-medium">{apt.doctor}</p>
-                  <p className="text-sm text-gray-500">{apt.specialty}</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-sm text-primary">{apt.date}</p>
-                    <Clock className="w-4 h-4 text-gray-400" />
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1">{apt.notes}</p>
-                </div>
-              ))}
-            </div>
-          </Card>
+          <MetricsCard
+            title="Device Metrics"
+            icon={Activity}
+            metrics={autoMetrics}
+          />
+          <MetricsCard
+            title="Self-Reported"
+            icon={Heart}
+            metrics={selfReportedMetrics}
+          />
+          <MedicationCard medications={medications} />
+          <AppointmentCard appointments={appointments} />
         </div>
       </div>
     </div>
