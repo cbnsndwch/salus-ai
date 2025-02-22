@@ -2,13 +2,22 @@
 import { useState } from "react";
 import { Activity, Heart, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 import { InsightCard } from "./dashboard/InsightCard";
 import { MetricsCard } from "./dashboard/MetricsCard";
 import { MedicationCard } from "./dashboard/MedicationCard";
 import { AppointmentCard } from "./dashboard/AppointmentCard";
+import { MetricsChart } from "./dashboard/MetricsChart";
+import { fetchHealthMetrics } from "@/services/mockHealthData";
 
 const Dashboard = () => {
   const { toast } = useToast();
+  
+  // Fetch time series data
+  const { data: timeSeriesData = [] } = useQuery({
+    queryKey: ['healthMetrics'],
+    queryFn: fetchHealthMetrics,
+  });
   
   // Automatically collected metrics
   const [autoMetrics] = useState({
@@ -114,6 +123,31 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <MetricsChart
+            title="Cardiovascular Metrics"
+            icon={Heart}
+            data={timeSeriesData}
+            metrics={[
+              { key: 'heartRate', name: 'Heart Rate', color: '#4ade80' },
+              { key: 'bloodPressureSystolic', name: 'Systolic BP', color: '#f43f5e' },
+              { key: 'bloodPressureDiastolic', name: 'Diastolic BP', color: '#ec4899' },
+            ]}
+          />
+          <MetricsChart
+            title="Other Metrics"
+            icon={Activity}
+            data={timeSeriesData}
+            metrics={[
+              { key: 'glucose', name: 'Glucose', color: '#8b5cf6' },
+              { key: 'spo2', name: 'SPO2', color: '#3b82f6' },
+              { key: 'weight', name: 'Weight', color: '#14b8a6' },
+            ]}
+          />
+        </div>
+
+        {/* Summary Cards Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <MetricsCard
             title="Device Metrics"
