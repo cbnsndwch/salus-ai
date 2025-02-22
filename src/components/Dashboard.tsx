@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Activity, Bell, Heart, Plus, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -10,14 +11,16 @@ import { MetricsChart } from "./dashboard/MetricsChart";
 import { fetchHealthMetrics } from "@/services/mockHealthData";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const Dashboard = () => {
   const { toast } = useToast();
+  const [timeRange, setTimeRange] = useState("7d");
   
   // Fetch time series data
   const { data: timeSeriesData = [] } = useQuery({
-    queryKey: ['healthMetrics'],
-    queryFn: fetchHealthMetrics,
+    queryKey: ['healthMetrics', timeRange],
+    queryFn: () => fetchHealthMetrics(timeRange === "30d" ? 30 : timeRange === "14d" ? 14 : 7),
   });
   
   // Automatically collected metrics
@@ -107,7 +110,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header Section */}
+        {/* Header Section with Time Range Selector */}
         <header className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <div>
@@ -119,6 +122,16 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <Select defaultValue="7d" onValueChange={(value) => setTimeRange(value)}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Select range" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7d">Last 7 days</SelectItem>
+                <SelectItem value="14d">Last 14 days</SelectItem>
+                <SelectItem value="30d">Last 30 days</SelectItem>
+              </SelectContent>
+            </Select>
             <Button variant="outline" size="icon">
               <Bell className="h-5 w-5" />
             </Button>

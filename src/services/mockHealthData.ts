@@ -22,8 +22,8 @@ export const getMockTimeSeriesData = (days: number = 7) => {
   return data;
 };
 
-export const fetchHealthMetrics = async () => {
+export const fetchHealthMetrics = async (days: number = 7) => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
-  return getMockTimeSeriesData();
+  return getMockTimeSeriesData(days);
 };

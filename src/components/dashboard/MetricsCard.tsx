@@ -31,22 +31,22 @@ export const MetricsCard = ({
       className
     )}>
       {/* Mini Chart Background */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-30">
         {data.length > 0 && (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
               <defs>
                 <linearGradient id="cardGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="white" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="white" stopOpacity={0} />
+                  <stop offset="0%" stopColor="white" stopOpacity={0.6} />
+                  <stop offset="100%" stopColor="white" stopOpacity={0.1} />
                 </linearGradient>
               </defs>
               <Area
                 type="monotone"
                 dataKey="value"
                 stroke="white"
+                strokeWidth={2}
                 fill="url(#cardGradient)"
-                strokeWidth={1}
               />
             </AreaChart>
           </ResponsiveContainer>
