@@ -45,7 +45,7 @@ export const VitalSignsSection = ({
 
                 <MetricsCard
                     title="Blood Pressure"
-                    value={`${systolic?.at(-1).value ?? 0}/${diastolic?.at(-1)?.value ?? 1}`}
+                    value={`${systolic?.at(-1).value ?? 0}/${diastolic?.at(-1)?.value ?? 0}`}
                     unit="mmHg"
                     icon={Activity}
                     trend="stable"
