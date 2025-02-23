@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -133,7 +134,7 @@ export default function Dashboard() {
                     formatMetricData={formatMetricData}
                 />
 
-                {/* <SleepMetricsSection
+                <SleepMetricsSection
                     data={healthData}
                     formatMetricData={formatMetricData}
                 />
@@ -141,7 +142,7 @@ export default function Dashboard() {
                 <OtherMetricsSection
                     data={healthData}
                     formatMetricData={formatMetricData}
-                />  */}
+                />
 
                 <ConversationWidget />
 
