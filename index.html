@@ -1,18 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mywellness-companion</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-    <meta property="og:image" content="/og-image.png" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SalusAI</title>
+        <meta name="description" content="SalusAI" />
+        <meta name="author" content="SalusAI" />
+        <meta property="og:image" content="/og-image.png" />
+    </head>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <body>
+        <div id="root"></div>
+        <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+        <script
+            src="https://cdn.gpteng.co/gptengineer.js"
+            type="module"
+        ></script>
+        <script type="module" src="/src/main.tsx"></script>
+        <script
+            async
+            src="https://elevenlabs.io/convai-widget/index.js"
+        ></script>
+
+        <elevenlabs-convai
+            agent-id="fZ7g5RboOY7f301bLKSs"
+            dynamic-variables='{"user_name": "John", "msg": "test" ,"account_type": "premium"}'
+        />
+    </body>
 </html>
