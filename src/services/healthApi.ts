@@ -1,53 +1,67 @@
-
-import axios from "axios";
+import axios, { AxiosResponse } from 'axios';
 
 const API_URL =
-  import.meta.env.VITE_BACKEND_URL ||
-  "https://us-central1-aiot-fit-xlab.cloudfunctions.net/salusai";
+    import.meta.env.VITE_BACKEND_URL ||
+    'https://us-central1-aiot-fit-xlab.cloudfunctions.net/salusai';
 
 // Types for API requests
 interface GetReadingsRequest {
-  action: "getreadings";
-  userid: string;
-  reading_names?: string[];
+    action: 'getreadings';
+    userid: string;
+    reading_names?: string[];
 }
 
 interface AddReadingRequest {
-  action: "addreading";
-  userid: string;
-  readingName: string;
-  readingValue: number;
-  readingunit: string;
-  readingTS: string;
+    action: 'addreading';
+    userid: string;
+    readingName: string;
+    readingValue: number;
+    readingunit: string;
+    readingTS: string;
+}
+
+export interface ReadingsList {
+    readings: Reading[];
+}
+
+export interface Reading {
+    readingName: string;
+    readingValue: number;
+    readingTS: string;
+    readingunit: string;
 }
 
 // Function to fetch health readings
-export const fetchHealthReadings = async (userId: string) => {
-  const response = await axios.post(API_URL, {
-    action: "getreadings",
-    userid: userId,
-  } as GetReadingsRequest);
+export async function fetchHealthReadings(userId: string) {
+    const response = await axios.post<
+        ReadingsList,
+        AxiosResponse<ReadingsList>,
+        GetReadingsRequest
+    >(API_URL, {
+        action: 'getreadings',
+        userid: userId,
+    });
 
-  return response.data;
-};
+    return response.data;
+}
 
 // Function to add a health reading
 export const addHealthReading = async (
-  userId: string,
-  readingName: string,
-  value: number,
-  unit: string,
+    userId: string,
+    readingName: string,
+    value: number,
+    unit: string
 ) => {
-  const now = new Date().toISOString().replace("T", " ").split(".")[0];
+    const now = new Date().toISOString().replace('T', ' ').split('.')[0];
 
-  const response = await axios.post(API_URL, {
-    action: "addreading",
-    userid: userId,
-    readingName,
-    readingValue: value,
-    readingunit: unit,
-    readingTS: now,
-  } as AddReadingRequest);
+    const response = await axios.post(API_URL, {
+        action: 'addreading',
+        userid: userId,
+        readingName,
+        readingValue: value,
+        readingunit: unit,
+        readingTS: now,
+    } as AddReadingRequest);
 
-  return response.data;
+    return response.data;
 };
