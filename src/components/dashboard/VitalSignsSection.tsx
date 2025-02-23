@@ -1,3 +1,4 @@
+
 import { Activity, Heart, Gauge, Thermometer } from 'lucide-react';
 
 import { ReadingsList } from '@/services/healthApi';
@@ -14,8 +15,6 @@ export const VitalSignsSection = ({
     data,
     formatMetricData,
 }: VitalSignsSectionProps) => {
-    // const latestData = data.readings.at(-1);
-
     const heartRateData = useMemo(
         () => formatMetricData('heartrate'),
         [formatMetricData]
@@ -26,6 +25,16 @@ export const VitalSignsSection = ({
             formatMetricData('blood_pressure_systolic'),
             formatMetricData('blood_pressure_diastolic'),
         ],
+        [formatMetricData]
+    );
+
+    const spo2Data = useMemo(
+        () => formatMetricData('spo2'),
+        [formatMetricData]
+    );
+
+    const temperatureData = useMemo(
+        () => formatMetricData('body_temperature'),
         [formatMetricData]
     );
 
@@ -45,7 +54,7 @@ export const VitalSignsSection = ({
 
                 <MetricsCard
                     title="Blood Pressure"
-                    value={`${systolic?.at(-1).value ?? 0}/${diastolic?.at(-1)?.value ?? 0}`}
+                    value={`${systolic?.at(-1)?.value ?? 0}/${diastolic?.at(-1)?.value ?? 0}`}
                     unit="mmHg"
                     icon={Activity}
                     trend="stable"
@@ -53,25 +62,25 @@ export const VitalSignsSection = ({
                     data={systolic}
                 />
 
-                {/* <MetricsCard
+                <MetricsCard
                     title="SPO2"
-                    value={latestData?.spo2.toString() ?? '0'}
+                    value={spo2Data?.at(-1)?.value.toString() ?? '0'}
                     unit="%"
                     icon={Gauge}
                     trend="stable"
                     className="bg-gradient-to-br from-blue-500/90 to-blue-600/90"
-                    data={formatMetricData('spo2')}
-                /> */}
+                    data={spo2Data}
+                />
 
-                {/* <MetricsCard
+                <MetricsCard
                     title="Body Temperature"
-                    value={latestData?.bodyTemperature.toFixed(1) ?? '0'}
+                    value={temperatureData?.at(-1)?.value.toFixed(1) ?? '0'}
                     unit="°F"
                     icon={Thermometer}
                     trend="stable"
                     className="bg-gradient-to-br from-orange-500/90 to-orange-600/90"
-                    data={formatMetricData('bodyTemperature')}
-                />  */}
+                    data={temperatureData}
+                /> 
             </div>
         </div>
     );
