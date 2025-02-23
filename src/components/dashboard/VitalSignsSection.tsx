@@ -1,4 +1,3 @@
-
 import { Activity, Heart, Gauge, Thermometer } from 'lucide-react';
 
 import { ReadingsList } from '@/services/healthApi';
@@ -20,7 +19,7 @@ export const VitalSignsSection = ({
         [formatMetricData]
     );
 
-    const [systolic, diastolic] = useMemo(
+    const [systolicData, diastolicData] = useMemo(
         () => [
             formatMetricData('blood_pressure_systolic'),
             formatMetricData('blood_pressure_diastolic'),
@@ -29,7 +28,7 @@ export const VitalSignsSection = ({
     );
 
     const spo2Data = useMemo(
-        () => formatMetricData('spo2'),
+        () => formatMetricData('SPO2'),
         [formatMetricData]
     );
 
@@ -54,12 +53,12 @@ export const VitalSignsSection = ({
 
                 <MetricsCard
                     title="Blood Pressure"
-                    value={`${systolic?.at(-1)?.value ?? 0}/${diastolic?.at(-1)?.value ?? 0}`}
+                    value={`${systolicData?.at(-1)?.value ?? 0}/${diastolicData?.at(-1)?.value ?? 0}`}
                     unit="mmHg"
                     icon={Activity}
                     trend="stable"
                     className="bg-gradient-to-br from-emerald-500/90 to-emerald-600/90"
-                    data={systolic}
+                    data={systolicData}
                 />
 
                 <MetricsCard
@@ -80,7 +79,7 @@ export const VitalSignsSection = ({
                     trend="stable"
                     className="bg-gradient-to-br from-orange-500/90 to-orange-600/90"
                     data={temperatureData}
-                /> 
+                />
             </div>
         </div>
     );
