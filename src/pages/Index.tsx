@@ -1,7 +1,5 @@
-import Dashboard from "@/components/Dashboard";
+import Dashboard from '@/components/Dashboard';
 
-const Index = () => {
-  return <Dashboard />;
-};
-
-export default Index;
+export default function Index() {
+    return <Dashboard />;
+}

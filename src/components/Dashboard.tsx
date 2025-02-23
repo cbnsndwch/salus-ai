@@ -1,28 +1,24 @@
 import { useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { fetchHealthReadings, addHealthReading } from '@/services/healthApi';
+import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
+
 import { DashboardHeader } from './dashboard/DashboardHeader';
 import { VitalSignsSection } from './dashboard/VitalSignsSection';
 import { SleepMetricsSection } from './dashboard/SleepMetricsSection';
 import { OtherMetricsSection } from './dashboard/OtherMetricsSection';
 import { MedicationCard } from './dashboard/MedicationCard';
 import { AppointmentCard } from './dashboard/AppointmentCard';
-import { useToast } from '@/hooks/use-toast';
-import { cn } from '@/lib/utils';
 
-const MOCK_USER_ID = 'USER_2'; // We can make this dynamic later
+import ConversationWidget from './ConversationWidget';
+
+const MOCK_USER_ID = 'USER_3'; // We can make this dynamic later
 
 export default function Dashboard() {
     const { toast } = useToast();
     const queryClient = useQueryClient();
-
-    const userData = useMemo(() => {
-        return JSON.stringify({
-            user_name: 'John',
-            account_type: 'premium',
-            msg: 'test',
-        });
-    }, []);
 
     const [timeRange, setTimeRange] = useState('7d');
 
@@ -65,10 +61,13 @@ export default function Dashboard() {
 
     // Format data for metric cards
     function formatMetricData(key: string) {
-        return healthData?.readings?.map((item) => ({
-            date: new Date(item.readingTS),
-            value: item[key],
-        }));
+        return healthData?.readings
+            ?.filter((item) => item.readingName === key)
+            ?.map((item) => ({
+                // date: new Date(item.readingTS),
+                date: item.readingTS,
+                value: item.readingValue,
+            }));
     }
 
     // Mock data for medications and appointments (kept as is for now)
@@ -129,12 +128,12 @@ export default function Dashboard() {
                     onTimeRangeChange={setTimeRange}
                 />
 
-                {/* <VitalSignsSection
+                <VitalSignsSection
                     data={healthData}
                     formatMetricData={formatMetricData}
                 />
 
-                <SleepMetricsSection
+                {/* <SleepMetricsSection
                     data={healthData}
                     formatMetricData={formatMetricData}
                 />
@@ -142,12 +141,9 @@ export default function Dashboard() {
                 <OtherMetricsSection
                     data={healthData}
                     formatMetricData={formatMetricData}
-                /> */}
+                />  */}
 
-                <elevenlabs-convai
-                    agent-id="fZ7g5RboOY7f301bLKSs"
-                    dynamic-variables={userData}
-                />
+                <ConversationWidget />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <MedicationCard medications={medications} />

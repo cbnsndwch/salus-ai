@@ -1,9 +1,12 @@
 import { Activity, Heart, Gauge, Thermometer } from 'lucide-react';
+
+import { ReadingsList } from '@/services/healthApi';
+
 import { MetricsCard } from './MetricsCard';
-import { HealthMetric } from '@/types/health';
+import { useMemo } from 'react';
 
 interface VitalSignsSectionProps {
-    data: HealthMetric[];
+    data: ReadingsList;
     formatMetricData: (key: string) => { date: string; value: number }[];
 }
 
@@ -11,7 +14,20 @@ export const VitalSignsSection = ({
     data,
     formatMetricData,
 }: VitalSignsSectionProps) => {
-    const latestData = data[data.length - 1];
+    // const latestData = data.readings.at(-1);
+
+    const heartRateData = useMemo(
+        () => formatMetricData('heartrate'),
+        [formatMetricData]
+    );
+
+    const [systolic, diastolic] = useMemo(
+        () => [
+            formatMetricData('blood_pressure_systolic'),
+            formatMetricData('blood_pressure_diastolic'),
+        ],
+        [formatMetricData]
+    );
 
     return (
         <div className="space-y-4">
@@ -19,23 +35,25 @@ export const VitalSignsSection = ({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <MetricsCard
                     title="Heart Rate"
-                    value={latestData?.heartRate.toString() ?? '0'}
+                    value={heartRateData?.at(-1)?.value.toString() ?? '0'}
                     unit="bpm"
                     icon={Heart}
                     trend="stable"
                     className="bg-gradient-to-br from-violet-500/90 to-violet-600/90"
-                    data={formatMetricData('heartRate')}
+                    data={heartRateData}
                 />
+
                 <MetricsCard
                     title="Blood Pressure"
-                    value={`${latestData?.bloodPressureSystolic ?? 0}/${latestData?.bloodPressureDiastolic ?? 0}`}
+                    value={`${systolic?.at(-1).value ?? 0}/${diastolic?.at(-1)?.value ?? 1}`}
                     unit="mmHg"
                     icon={Activity}
                     trend="stable"
                     className="bg-gradient-to-br from-emerald-500/90 to-emerald-600/90"
-                    data={formatMetricData('bloodPressureSystolic')}
+                    data={systolic}
                 />
-                <MetricsCard
+
+                {/* <MetricsCard
                     title="SPO2"
                     value={latestData?.spo2.toString() ?? '0'}
                     unit="%"
@@ -43,8 +61,9 @@ export const VitalSignsSection = ({
                     trend="stable"
                     className="bg-gradient-to-br from-blue-500/90 to-blue-600/90"
                     data={formatMetricData('spo2')}
-                />
-                <MetricsCard
+                /> */}
+
+                {/* <MetricsCard
                     title="Body Temperature"
                     value={latestData?.bodyTemperature.toFixed(1) ?? '0'}
                     unit="°F"
@@ -52,7 +71,7 @@ export const VitalSignsSection = ({
                     trend="stable"
                     className="bg-gradient-to-br from-orange-500/90 to-orange-600/90"
                     data={formatMetricData('bodyTemperature')}
-                />
+                />  */}
             </div>
         </div>
     );
