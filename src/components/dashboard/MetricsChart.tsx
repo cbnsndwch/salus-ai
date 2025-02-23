@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
 import {
@@ -24,7 +23,12 @@ interface MetricsChartProps {
   }[];
 }
 
-export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartProps) => {
+export const MetricsChart = ({
+  title,
+  icon: Icon,
+  data,
+  metrics,
+}: MetricsChartProps) => {
   return (
     <Card className="p-6 backdrop-blur-sm bg-card/50 animate-fadeIn">
       <div className="flex items-center space-x-3 mb-4">
@@ -69,10 +73,12 @@ export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartP
               stroke="currentColor"
               tickLine={false}
               axisLine={false}
-              tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { 
-                month: 'short', 
-                day: 'numeric' 
-              })}
+              tickFormatter={(value) =>
+                new Date(value).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })
+              }
             />
             <YAxis
               className="text-xs font-medium"
@@ -88,15 +94,18 @@ export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartP
                     <div className="rounded-lg border bg-background/95 p-4 shadow-lg backdrop-blur-sm">
                       <div className="flex flex-col gap-2">
                         <div className="font-medium text-sm">
-                          {new Date(label).toLocaleDateString('en-US', { 
-                            weekday: 'long',
-                            month: 'long',
-                            day: 'numeric'
+                          {new Date(label).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            month: "long",
+                            day: "numeric",
                           })}
                         </div>
                         <div className="grid gap-2">
                           {payload.map((p: any) => (
-                            <div key={p.name} className="flex items-center justify-between gap-2">
+                            <div
+                              key={p.name}
+                              className="flex items-center justify-between gap-2"
+                            >
                               <div className="flex items-center gap-2">
                                 <div
                                   className="w-2 h-2 rounded-full"
@@ -106,9 +115,7 @@ export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartP
                                   {p.name}
                                 </span>
                               </div>
-                              <span className="font-medium">
-                                {p.value}
-                              </span>
+                              <span className="font-medium">{p.value}</span>
                             </div>
                           ))}
                         </div>
@@ -133,7 +140,7 @@ export const MetricsChart = ({ title, icon: Icon, data, metrics }: MetricsChartP
                   r: 4,
                   strokeWidth: 2,
                   stroke: metric.color,
-                  fill: "white"
+                  fill: "white",
                 }}
               />
             ))}

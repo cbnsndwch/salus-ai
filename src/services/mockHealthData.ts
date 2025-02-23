@@ -1,15 +1,14 @@
-
 // Mock time series data for health metrics
 export const getMockTimeSeriesData = (days: number = 7) => {
   const data = [];
   const now = new Date();
-  
+
   for (let i = 0; i < days; i++) {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
-    
+
     data.unshift({
-      date: date.toISOString().split('T')[0],
+      date: date.toISOString().split("T")[0],
       heartRate: 65 + Math.floor(Math.random() * 20),
       bloodPressureSystolic: 115 + Math.floor(Math.random() * 15),
       bloodPressureDiastolic: 75 + Math.floor(Math.random() * 10),
@@ -24,12 +23,12 @@ export const getMockTimeSeriesData = (days: number = 7) => {
       painLevel: Math.floor(Math.random() * 5),
     });
   }
-  
+
   return data;
 };
 
 export const fetchHealthMetrics = async (days: number = 7) => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   return getMockTimeSeriesData(days);
 };

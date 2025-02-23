@@ -1,4 +1,3 @@
-
 export interface HealthMetric {
   date: string;
   heartRate: number;

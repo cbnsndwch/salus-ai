@@ -1,4 +1,3 @@
-
 import { Activity, Heart, Gauge, Thermometer } from "lucide-react";
 import { MetricsCard } from "./MetricsCard";
 import { HealthMetric } from "@/types/health";
@@ -8,7 +7,10 @@ interface VitalSignsSectionProps {
   formatMetricData: (key: string) => { date: string; value: number }[];
 }
 
-export const VitalSignsSection = ({ data, formatMetricData }: VitalSignsSectionProps) => {
+export const VitalSignsSection = ({
+  data,
+  formatMetricData,
+}: VitalSignsSectionProps) => {
   const latestData = data[data.length - 1];
 
   return (
@@ -22,7 +24,7 @@ export const VitalSignsSection = ({ data, formatMetricData }: VitalSignsSectionP
           icon={Heart}
           trend="stable"
           className="bg-gradient-to-br from-violet-500/90 to-violet-600/90"
-          data={formatMetricData('heartRate')}
+          data={formatMetricData("heartRate")}
         />
         <MetricsCard
           title="Blood Pressure"
@@ -31,7 +33,7 @@ export const VitalSignsSection = ({ data, formatMetricData }: VitalSignsSectionP
           icon={Activity}
           trend="stable"
           className="bg-gradient-to-br from-emerald-500/90 to-emerald-600/90"
-          data={formatMetricData('bloodPressureSystolic')}
+          data={formatMetricData("bloodPressureSystolic")}
         />
         <MetricsCard
           title="SPO2"
@@ -40,7 +42,7 @@ export const VitalSignsSection = ({ data, formatMetricData }: VitalSignsSectionP
           icon={Gauge}
           trend="stable"
           className="bg-gradient-to-br from-blue-500/90 to-blue-600/90"
-          data={formatMetricData('spo2')}
+          data={formatMetricData("spo2")}
         />
         <MetricsCard
           title="Body Temperature"
@@ -49,7 +51,7 @@ export const VitalSignsSection = ({ data, formatMetricData }: VitalSignsSectionP
           icon={Thermometer}
           trend="stable"
           className="bg-gradient-to-br from-orange-500/90 to-orange-600/90"
-          data={formatMetricData('bodyTemperature')}
+          data={formatMetricData("bodyTemperature")}
         />
       </div>
     </div>

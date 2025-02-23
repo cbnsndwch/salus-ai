@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchHealthReadings, addHealthReading } from "@/services/healthApi";
@@ -9,6 +8,7 @@ import { OtherMetricsSection } from "./dashboard/OtherMetricsSection";
 import { MedicationCard } from "./dashboard/MedicationCard";
 import { AppointmentCard } from "./dashboard/AppointmentCard";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 const MOCK_USER_ID = "USER_2"; // We can make this dynamic later
 
@@ -16,19 +16,30 @@ const Dashboard = () => {
   const [timeRange, setTimeRange] = useState("7d");
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   // Fetch health data from the API
-  const { data: healthData = [], isLoading, error } = useQuery({
-    queryKey: ['healthData', MOCK_USER_ID],
+  const {
+    data: healthData = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["healthData", MOCK_USER_ID],
     queryFn: () => fetchHealthReadings(MOCK_USER_ID),
   });
 
   // Mutation for adding new readings
   const addReadingMutation = useMutation({
-    mutationFn: ({ readingName, value, unit }: { readingName: string, value: number, unit: string }) =>
-      addHealthReading(MOCK_USER_ID, readingName, value, unit),
+    mutationFn: ({
+      readingName,
+      value,
+      unit,
+    }: {
+      readingName: string;
+      value: number;
+      unit: string;
+    }) => addHealthReading(MOCK_USER_ID, readingName, value, unit),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['healthData'] });
+      queryClient.invalidateQueries({ queryKey: ["healthData"] });
       toast({
         title: "Reading added successfully",
         description: "Your health data has been updated.",
@@ -48,53 +59,56 @@ const Dashboard = () => {
     // We'll need to adapt this based on the actual API response format
     return healthData.map((item: any) => ({
       date: item.date,
-      value: item[key]
+      value: item[key],
     }));
   };
 
   // Mock data for medications and appointments (kept as is for now)
   const [medications] = useState([
     {
-      name: 'Lisinopril',
-      time: '8:00 AM',
+      name: "Lisinopril",
+      time: "8:00 AM",
       taken: false,
-      instructions: 'Take with food',
-      nextRefill: 'March 25, 2024',
+      instructions: "Take with food",
+      nextRefill: "March 25, 2024",
     },
     {
-      name: 'Metformin',
-      time: '2:00 PM',
+      name: "Metformin",
+      time: "2:00 PM",
       taken: false,
-      instructions: 'Take with meals',
-      nextRefill: 'March 30, 2024',
+      instructions: "Take with meals",
+      nextRefill: "March 30, 2024",
     },
   ]);
 
   const [appointments] = useState([
     {
-      doctor: 'Dr. Smith',
-      specialty: 'Cardiologist',
-      date: 'March 15, 2024',
-      notes: 'Regular checkup + ECG',
-      priority: 'high',
+      doctor: "Dr. Smith",
+      specialty: "Cardiologist",
+      date: "March 15, 2024",
+      notes: "Regular checkup + ECG",
+      priority: "high",
     },
     {
-      doctor: 'Dr. Johnson',
-      specialty: 'Endocrinologist',
-      date: 'March 20, 2024',
-      notes: 'Diabetes management review',
-      priority: 'medium',
+      doctor: "Dr. Johnson",
+      specialty: "Endocrinologist",
+      date: "March 20, 2024",
+      notes: "Diabetes management review",
+      priority: "medium",
     },
   ]);
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
-  }
-
-  if (error) {
+  if (isLoading || error) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-500">
-        Error loading health data. Please try again later.
+      <div
+        className={cn(
+          "flex items-center justify-center min-h-screen",
+          error ? "text-red-500" : "",
+        )}
+      >
+        {isLoading
+          ? "Loading..."
+          : "Error loading health data. Please try again later."}
       </div>
     );
   }
@@ -102,22 +116,22 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        <DashboardHeader 
+        <DashboardHeader
           timeRange={timeRange}
           onTimeRangeChange={setTimeRange}
         />
-        
-        <VitalSignsSection 
+
+        <VitalSignsSection
           data={healthData}
           formatMetricData={formatMetricData}
         />
-        
-        <SleepMetricsSection 
+
+        <SleepMetricsSection
           data={healthData}
           formatMetricData={formatMetricData}
         />
-        
-        <OtherMetricsSection 
+
+        <OtherMetricsSection
           data={healthData}
           formatMetricData={formatMetricData}
         />

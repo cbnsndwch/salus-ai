@@ -1,4 +1,3 @@
-
 import { LucideIcon, TrendingDown, TrendingUp, Minus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -15,21 +14,23 @@ interface MetricsCardProps {
   data?: { value: number; date: string }[];
 }
 
-export const MetricsCard = ({ 
-  title, 
-  value, 
-  unit, 
-  icon: Icon, 
-  trend, 
+export const MetricsCard = ({
+  title,
+  value,
+  unit,
+  icon: Icon,
+  trend,
   trendValue,
   className,
-  data = []
+  data = [],
 }: MetricsCardProps) => {
   return (
-    <Card className={cn(
-      "p-6 text-white backdrop-blur-sm animate-fadeIn relative overflow-hidden",
-      className
-    )}>
+    <Card
+      className={cn(
+        "p-6 text-white backdrop-blur-sm animate-fadeIn relative overflow-hidden",
+        className,
+      )}
+    >
       {/* Mini Chart Background */}
       <div className="absolute inset-0 opacity-30">
         {data.length > 0 && (

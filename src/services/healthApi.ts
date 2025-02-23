@@ -1,7 +1,8 @@
-
 import axios from "axios";
 
-const API_URL = "https://us-central1-aiot-fit-xlab.cloudfunctions.net/salusai";
+const API_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://us-central1-aiot-fit-xlab.cloudfunctions.net/salusai";
 
 // Types for API requests
 interface GetReadingsRequest {
@@ -25,7 +26,7 @@ export const fetchHealthReadings = async (userId: string) => {
     action: "getreadings",
     userid: userId,
   } as GetReadingsRequest);
-  
+
   return response.data;
 };
 
@@ -34,10 +35,10 @@ export const addHealthReading = async (
   userId: string,
   readingName: string,
   value: number,
-  unit: string
+  unit: string,
 ) => {
-  const now = new Date().toISOString().replace('T', ' ').split('.')[0];
-  
+  const now = new Date().toISOString().replace("T", " ").split(".")[0];
+
   const response = await axios.post(API_URL, {
     action: "addreading",
     userid: userId,
@@ -46,6 +47,6 @@ export const addHealthReading = async (
     readingunit: unit,
     readingTS: now,
   } as AddReadingRequest);
-  
+
   return response.data;
 };

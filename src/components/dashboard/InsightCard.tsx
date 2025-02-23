@@ -1,4 +1,3 @@
-
 import { AlertTriangle, Brain } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -9,12 +8,17 @@ interface InsightCardProps {
     action: string;
     severity: string;
   };
-  onClick: (insight: { type: string; message: string; action: string; severity: string; }) => void;
+  onClick: (insight: {
+    type: string;
+    message: string;
+    action: string;
+    severity: string;
+  }) => void;
 }
 
 export const InsightCard = ({ insight, onClick }: InsightCardProps) => {
   return (
-    <Card 
+    <Card
       className="p-4 backdrop-blur-sm bg-card animate-fadeIn cursor-pointer hover:shadow-md transition-shadow"
       onClick={() => onClick(insight)}
     >

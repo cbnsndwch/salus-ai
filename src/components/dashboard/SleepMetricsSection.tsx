@@ -1,4 +1,3 @@
-
 import { Moon, Timer, VolumeX, HeartPulse } from "lucide-react";
 import { MetricsCard } from "./MetricsCard";
 import { HealthMetric } from "@/types/health";
@@ -8,7 +7,10 @@ interface SleepMetricsSectionProps {
   formatMetricData: (key: string) => { date: string; value: number }[];
 }
 
-export const SleepMetricsSection = ({ data, formatMetricData }: SleepMetricsSectionProps) => {
+export const SleepMetricsSection = ({
+  data,
+  formatMetricData,
+}: SleepMetricsSectionProps) => {
   const latestData = data[data.length - 1];
 
   return (
@@ -22,7 +24,7 @@ export const SleepMetricsSection = ({ data, formatMetricData }: SleepMetricsSect
           icon={Moon}
           trend="up"
           className="bg-gradient-to-br from-indigo-500/90 to-indigo-600/90"
-          data={formatMetricData('sleepScore')}
+          data={formatMetricData("sleepScore")}
         />
         <MetricsCard
           title="Sleep Duration"
@@ -31,7 +33,7 @@ export const SleepMetricsSection = ({ data, formatMetricData }: SleepMetricsSect
           icon={Timer}
           trend="stable"
           className="bg-gradient-to-br from-purple-500/90 to-purple-600/90"
-          data={formatMetricData('sleepDuration')}
+          data={formatMetricData("sleepDuration")}
         />
         <MetricsCard
           title="Snore Count"
@@ -40,7 +42,7 @@ export const SleepMetricsSection = ({ data, formatMetricData }: SleepMetricsSect
           icon={VolumeX}
           trend="down"
           className="bg-gradient-to-br from-slate-500/90 to-slate-600/90"
-          data={formatMetricData('snoreCount')}
+          data={formatMetricData("snoreCount")}
         />
         <MetricsCard
           title="Heart Rate Variability"
@@ -49,7 +51,7 @@ export const SleepMetricsSection = ({ data, formatMetricData }: SleepMetricsSect
           icon={HeartPulse}
           trend="up"
           className="bg-gradient-to-br from-pink-500/90 to-pink-600/90"
-          data={formatMetricData('heartRateVariability')}
+          data={formatMetricData("heartRateVariability")}
         />
       </div>
     </div>

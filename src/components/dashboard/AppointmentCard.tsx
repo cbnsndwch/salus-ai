@@ -1,4 +1,3 @@
-
 import { Calendar, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -23,12 +22,14 @@ export const AppointmentCard = ({ appointments }: AppointmentCardProps) => {
       </div>
       <div className="space-y-3">
         {appointments.map((apt, index) => (
-          <div 
-            key={index} 
+          <div
+            key={index}
             className={`p-3 bg-white rounded-lg shadow-sm border-l-4 ${
-              apt.priority === "high" ? "border-red-500" : 
-              apt.priority === "medium" ? "border-yellow-500" : 
-              "border-green-500"
+              apt.priority === "high"
+                ? "border-red-500"
+                : apt.priority === "medium"
+                  ? "border-yellow-500"
+                  : "border-green-500"
             }`}
           >
             <p className="font-medium">{apt.doctor}</p>

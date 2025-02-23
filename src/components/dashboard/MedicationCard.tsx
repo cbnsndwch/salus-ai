@@ -1,4 +1,3 @@
-
 import { Info, Pill } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -33,12 +32,14 @@ export const MedicationCard = ({ medications }: MedicationCardProps) => {
                 <p className="text-sm text-gray-500">{med.time}</p>
                 <p className="text-xs text-gray-400 mt-1">{med.instructions}</p>
               </div>
-              <Info 
+              <Info
                 className="w-5 h-5 text-gray-400 cursor-pointer hover:text-primary transition-colors"
-                onClick={() => toast({
-                  title: med.name,
-                  description: `Next refill: ${med.nextRefill}`,
-                })}
+                onClick={() =>
+                  toast({
+                    title: med.name,
+                    description: `Next refill: ${med.nextRefill}`,
+                  })
+                }
               />
             </div>
           </div>
