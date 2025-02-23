@@ -50,7 +50,9 @@ export function SleepMetricsSection({ formatMetricData }: MetricsSectionProps) {
                 />
                 <MetricsCard
                     title="Heart Rate Variability"
-                    value={heartRateVariability?.at(-1)?.toString() ?? '0'}
+                    value={
+                        heartRateVariability?.at(-1)?.value?.toString() ?? '0'
+                    }
                     unit="ms"
                     icon={HeartPulse}
                     trend="up"
