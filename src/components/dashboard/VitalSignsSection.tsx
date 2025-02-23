@@ -1,19 +1,11 @@
+import { useMemo } from 'react';
 import { Activity, Heart, Gauge, Thermometer } from 'lucide-react';
 
-import { ReadingsList } from '@/services/healthApi';
+import { MetricsSectionProps } from '@/services/healthApi';
 
 import { MetricsCard } from './MetricsCard';
-import { useMemo } from 'react';
 
-interface VitalSignsSectionProps {
-    data: ReadingsList;
-    formatMetricData: (key: string) => { date: string; value: number }[];
-}
-
-export const VitalSignsSection = ({
-    data,
-    formatMetricData,
-}: VitalSignsSectionProps) => {
+export function VitalSignsSection({ formatMetricData }: MetricsSectionProps) {
     const heartRateData = useMemo(
         () => formatMetricData('heartrate'),
         [formatMetricData]
@@ -39,7 +31,7 @@ export const VitalSignsSection = ({
 
     return (
         <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Vital Signs</h2>
+            <h2 className="text-lg font-semibold">Vitals</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <MetricsCard
                     title="Heart Rate"
@@ -83,4 +75,4 @@ export const VitalSignsSection = ({
             </div>
         </div>
     );
-};
+}

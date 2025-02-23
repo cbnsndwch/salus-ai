@@ -2,6 +2,10 @@ import axios, { AxiosResponse } from 'axios';
 
 import { API_URL } from './constants';
 
+export type MetricsSectionProps = {
+    formatMetricData: (key: string) => { date: string; value: number }[];
+};
+
 // Types for API requests
 interface GetReadingsRequest {
     action: 'getreadings';

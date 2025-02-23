@@ -1,4 +1,3 @@
-
 import { useMemo, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -129,20 +128,11 @@ export default function Dashboard() {
                     onTimeRangeChange={setTimeRange}
                 />
 
-                <VitalSignsSection
-                    data={healthData}
-                    formatMetricData={formatMetricData}
-                />
+                <VitalSignsSection formatMetricData={formatMetricData} />
 
-                <SleepMetricsSection
-                    data={healthData}
-                    formatMetricData={formatMetricData}
-                />
+                <SleepMetricsSection formatMetricData={formatMetricData} />
 
-                <OtherMetricsSection
-                    data={healthData}
-                    formatMetricData={formatMetricData}
-                />
+                <OtherMetricsSection formatMetricData={formatMetricData} />
 
                 <ConversationWidget />
 
