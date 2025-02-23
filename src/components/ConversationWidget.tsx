@@ -62,7 +62,7 @@ export default function ConversationWidget() {
     // }
 
     return (
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 z-[999]">
             <div className="group fixed bottom-8 right-8 cursor-pointer pr-4 pb-10 lg:pb-4 flex items-end justify-end w-24 h-24">
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger
