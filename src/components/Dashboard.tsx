@@ -130,7 +130,7 @@ function Dashboard() {
                         <div>
                             <p className="text-gray-500 mb-1">Good Morning</p>
                             <h1 className="text-2xl font-bold flex items-center gap-2">
-                                Welcome Back
+                                Hello there!
                                 <span role="img" aria-label="wave">
                                     👋
                                 </span>
