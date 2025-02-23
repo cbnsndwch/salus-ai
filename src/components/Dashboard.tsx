@@ -1,62 +1,25 @@
 import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchHealthReadings, addHealthReading } from "@/services/healthApi";
+import { useQuery } from "@tanstack/react-query";
+import { fetchHealthMetrics } from "@/services/mockHealthData";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { VitalSignsSection } from "./dashboard/VitalSignsSection";
 import { SleepMetricsSection } from "./dashboard/SleepMetricsSection";
 import { OtherMetricsSection } from "./dashboard/OtherMetricsSection";
 import { MedicationCard } from "./dashboard/MedicationCard";
 import { AppointmentCard } from "./dashboard/AppointmentCard";
-import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
-
-const MOCK_USER_ID = "USER_2"; // We can make this dynamic later
 
 const Dashboard = () => {
   const [timeRange, setTimeRange] = useState("7d");
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  // Fetch health data from the API
-  const {
-    data: healthData = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["healthData", MOCK_USER_ID],
-    queryFn: () => fetchHealthReadings(MOCK_USER_ID),
-  });
-
-  // Mutation for adding new readings
-  const addReadingMutation = useMutation({
-    mutationFn: ({
-      readingName,
-      value,
-      unit,
-    }: {
-      readingName: string;
-      value: number;
-      unit: string;
-    }) => addHealthReading(MOCK_USER_ID, readingName, value, unit),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["healthData"] });
-      toast({
-        title: "Reading added successfully",
-        description: "Your health data has been updated.",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error adding reading",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    },
+  // Fetch health data using mock service
+  const { data: healthData = [], isLoading, error } = useQuery({
+    queryKey: ["healthMetrics", timeRange],
+    queryFn: () => fetchHealthMetrics(timeRange === "30d" ? 30 : timeRange === "14d" ? 14 : 7),
   });
 
   // Format data for metric cards
   const formatMetricData = (key: string) => {
-    // We'll need to adapt this based on the actual API response format
     return healthData.map((item: any) => ({
       date: item.date,
       value: item[key],
@@ -100,15 +63,11 @@ const Dashboard = () => {
 
   if (isLoading || error) {
     return (
-      <div
-        className={cn(
-          "flex items-center justify-center min-h-screen",
-          error ? "text-red-500" : "",
-        )}
-      >
-        {isLoading
-          ? "Loading..."
-          : "Error loading health data. Please try again later."}
+      <div className={cn(
+        "flex items-center justify-center min-h-screen",
+        error ? "text-red-500" : ""
+      )}>
+        {isLoading ? "Loading..." : "Error loading health data. Please try again later."}
       </div>
     );
   }
@@ -116,22 +75,22 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        <DashboardHeader
+        <DashboardHeader 
           timeRange={timeRange}
           onTimeRangeChange={setTimeRange}
         />
 
-        <VitalSignsSection
+        <VitalSignsSection 
           data={healthData}
           formatMetricData={formatMetricData}
         />
-
-        <SleepMetricsSection
+        
+        <SleepMetricsSection 
           data={healthData}
           formatMetricData={formatMetricData}
         />
-
-        <OtherMetricsSection
+        
+        <OtherMetricsSection 
           data={healthData}
           formatMetricData={formatMetricData}
         />

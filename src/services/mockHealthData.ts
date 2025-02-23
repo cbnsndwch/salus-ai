@@ -1,3 +1,4 @@
+
 // Mock time series data for health metrics
 export const getMockTimeSeriesData = (days: number = 7) => {
   const data = [];
