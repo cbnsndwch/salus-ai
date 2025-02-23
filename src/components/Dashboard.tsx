@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { 
   Activity, 
   Bell, 
@@ -16,12 +16,9 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { MetricsCard } from "./dashboard/MetricsCard";
-import { MedicationCard } from "./dashboard/MedicationCard";
-import { AppointmentCard } from "./dashboard/AppointmentCard";
 import { MetricsChart } from "./dashboard/MetricsChart";
 import { fetchHealthMetrics } from "@/services/mockHealthData";
 import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const Dashboard = () => {
@@ -33,85 +30,6 @@ const Dashboard = () => {
     queryKey: ['healthMetrics', timeRange],
     queryFn: () => fetchHealthMetrics(timeRange === "30d" ? 30 : timeRange === "14d" ? 14 : 7),
   });
-
-  // Automatically collected metrics
-  const [autoMetrics] = useState({
-    heartRate: '72 bpm',
-    spo2: '98%',
-    bloodPressure: '120/80',
-    sleepScore: '85/100',
-    sleepDuration: '7.5 hrs',
-    snoreCount: '12 events',
-    heartRateVariability: '45 ms',
-    glucose: '95 mg/dL',
-  });
-
-  // Self-reported metrics
-  const [selfReportedMetrics] = useState({
-    bodyTemperature: '98.6°F',
-    painLevel: '2/10',
-    weight: '70 kg',
-  });
-
-  const [medications] = useState([
-    {
-      name: 'Lisinopril',
-      time: '8:00 AM',
-      taken: false,
-      instructions: 'Take with food',
-      nextRefill: 'March 25, 2024',
-    },
-    {
-      name: 'Metformin',
-      time: '2:00 PM',
-      taken: false,
-      instructions: 'Take with meals',
-      nextRefill: 'March 30, 2024',
-    },
-  ]);
-
-  const [appointments] = useState([
-    {
-      doctor: 'Dr. Smith',
-      specialty: 'Cardiologist',
-      date: 'March 15, 2024',
-      notes: 'Regular checkup + ECG',
-      priority: 'high',
-    },
-    {
-      doctor: 'Dr. Johnson',
-      specialty: 'Endocrinologist',
-      date: 'March 20, 2024',
-      notes: 'Diabetes management review',
-      priority: 'medium',
-    },
-  ]);
-
-  const [insights] = useState([
-    {
-      type: 'alert',
-      message: 'Blood pressure trending higher this week',
-      action: 'Schedule a check-up',
-      severity: 'warning',
-    },
-    {
-      type: 'tip',
-      message: 'Walking 30 minutes daily can help manage blood pressure',
-      action: 'Learn more',
-      severity: 'info',
-    },
-  ]);
-
-  const handleInsightAction = useCallback(
-    (insight: (typeof insights)[0]) => {
-      toast({
-        title: insight.type === 'alert' ? 'Health Alert' : 'Health Tip',
-        description: insight.message,
-        duration: 5000,
-      });
-    },
-    [toast]
-  );
 
   // Format data for metric cards
   const formatMetricData = (key: string) => {
@@ -152,10 +70,6 @@ const Dashboard = () => {
             <Button variant="outline" size="icon">
               <Plus className="h-5 w-5" />
             </Button>
-            {/* <Avatar className="h-10 w-10">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar> */}
           </div>
         </header>
 
@@ -301,12 +215,6 @@ const Dashboard = () => {
               { key: 'snoreCount', name: 'Snore Count', color: '#14b8a6' },
             ]}
           />
-        </div>
-
-        {/* Bottom Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <MedicationCard medications={medications} />
-          <AppointmentCard appointments={appointments} />
         </div>
       </div>
     </div>
