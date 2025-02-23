@@ -45,7 +45,9 @@ export default function ConversationWidget() {
 
             // Start the conversation with your agent
             await conversation.startSession({
-                agentId: import.meta.env.VITE_11LABS_AGENT_ID,
+                agentId:
+                    import.meta.env.VITE_11LABS_AGENT_ID ??
+                    'yDoY6WYLpy0ys0GiTMSj',
                 // getVoiceAiEndpoint,
             });
         } catch (error) {
