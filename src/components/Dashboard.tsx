@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { 
   Activity, 
@@ -16,7 +17,8 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { MetricsCard } from "./dashboard/MetricsCard";
-import { MetricsChart } from "./dashboard/MetricsChart";
+import { MedicationCard } from "./dashboard/MedicationCard";
+import { AppointmentCard } from "./dashboard/AppointmentCard";
 import { fetchHealthMetrics } from "@/services/mockHealthData";
 import { Button } from "./ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
@@ -38,6 +40,40 @@ const Dashboard = () => {
       value: item[key]
     }));
   };
+
+  const [medications] = useState([
+    {
+      name: 'Lisinopril',
+      time: '8:00 AM',
+      taken: false,
+      instructions: 'Take with food',
+      nextRefill: 'March 25, 2024',
+    },
+    {
+      name: 'Metformin',
+      time: '2:00 PM',
+      taken: false,
+      instructions: 'Take with meals',
+      nextRefill: 'March 30, 2024',
+    },
+  ]);
+
+  const [appointments] = useState([
+    {
+      doctor: 'Dr. Smith',
+      specialty: 'Cardiologist',
+      date: 'March 15, 2024',
+      notes: 'Regular checkup + ECG',
+      priority: 'high',
+    },
+    {
+      doctor: 'Dr. Johnson',
+      specialty: 'Endocrinologist',
+      date: 'March 20, 2024',
+      notes: 'Diabetes management review',
+      priority: 'medium',
+    },
+  ]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
@@ -193,28 +229,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <MetricsChart
-            title="Cardiovascular Metrics"
-            icon={Heart}
-            data={timeSeriesData}
-            metrics={[
-              { key: 'heartRate', name: 'Heart Rate', color: '#4ade80' },
-              { key: 'bloodPressureSystolic', name: 'Systolic BP', color: '#f43f5e' },
-              { key: 'bloodPressureDiastolic', name: 'Diastolic BP', color: '#ec4899' },
-            ]}
-          />
-          <MetricsChart
-            title="Sleep Metrics"
-            icon={Moon}
-            data={timeSeriesData}
-            metrics={[
-              { key: 'sleepScore', name: 'Sleep Score', color: '#8b5cf6' },
-              { key: 'sleepDuration', name: 'Sleep Duration', color: '#3b82f6' },
-              { key: 'snoreCount', name: 'Snore Count', color: '#14b8a6' },
-            ]}
-          />
+        {/* Bottom Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <MedicationCard medications={medications} />
+          <AppointmentCard appointments={appointments} />
         </div>
       </div>
     </div>
